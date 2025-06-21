@@ -104,3 +104,24 @@ bookRouter.patch("/:bookId", async (req: Request, res: Response) => {
     });
   }
 });
+
+bookRouter.delete("/:bookId", async (req: Request, res: Response) => {
+  try {
+    const bookId: string = req.params.bookId;
+
+    await Book.findOneAndDelete({ _id: bookId });
+    res.status(200).json({
+      success: true,
+      message: "Book deleted successfully",
+      data: null,
+    });
+  } catch (error: any) {
+    console.log("ERROR", error);
+
+    res.status(400).json({
+      message: error.message,
+      success: false,
+      error,
+    });
+  }
+});
