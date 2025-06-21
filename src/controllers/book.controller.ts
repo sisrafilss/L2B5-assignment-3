@@ -63,22 +63,37 @@ bookRouter.get("/", async (req: Request, res: Response) => {
 bookRouter.get("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId;
+    const book = await Book.findById(bookId);
 
-    const books = await Book.find({ _id: bookId });
+    res.status(200).json({
+      success: true,
+      message: "Book retrieved successfully",
+      data: book,
+    });
+  } catch (error: any) {
+    console.log("ERROR", error);
 
-    if (books.length) {
-      res.status(200).json({
-        success: true,
-        message: "Books retrieved successfully",
-        data: books[0],
-      });
-    } else {
-      res.status(200).json({
-        success: true,
-        message: "No matching results found",
-        data: {},
-      });
-    }
+    res.status(400).json({
+      message: error.message,
+      success: false,
+      error,
+    });
+  }
+});
+
+bookRouter.patch("/:bookId", async (req: Request, res: Response) => {
+  try {
+    const bookId: string = req.params.bookId;
+    const updatedBody = req.body;
+
+    const book = await Book.findOneAndUpdate({ _id: bookId }, updatedBody, {
+      new: true,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Book updated successfully",
+      data: book,
+    });
   } catch (error: any) {
     console.log("ERROR", error);
 
