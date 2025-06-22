@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import { IBook } from "../interfaces/book.interface";
+import { IBook, IBookStaticMethod } from "../interfaces/book.interface";
 
-const bookSchema = new Schema<IBook>(
+const bookSchema = new Schema<IBook, IBookStaticMethod>(
   {
     title: {
       type: String,
@@ -58,4 +58,18 @@ const bookSchema = new Schema<IBook>(
   }
 );
 
-export const Book = model<IBook>("Book", bookSchema);
+// static instance method
+bookSchema.static("updateAvailability", async function (bookId: string) {
+  const book = await Book.findById(bookId);
+  if (book) {
+    book.available = book.copies > 0;
+    await book.save();
+  }
+});
+
+// pre middleware
+bookSchema.post("findOneAndUpdate", async function (doc) {
+  console.log("from inside pre save middleware:", doc);
+});
+
+export const Book = model<IBook, IBookStaticMethod>("Book", bookSchema);
