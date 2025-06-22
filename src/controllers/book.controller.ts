@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import mongoose from "mongoose";
 import { Book } from "../models/book.model";
 
 export const bookRouter = express.Router();
@@ -63,7 +64,26 @@ bookRouter.get("/", async (req: Request, res: Response) => {
 bookRouter.get("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId;
+
+    // Validate ObjectId
+    if (!mongoose.isValidObjectId(bookId)) {
+      res
+        .status(400)
+        .json({ success: false, message: "Invalid book ID", data: null });
+      return;
+    }
+
     const book = await Book.findById(bookId);
+
+    // check book availability
+    if (!book) {
+      res.status(400).json({
+        success: false,
+        messagre: "Book not found",
+        data: null,
+      });
+      return;
+    }
 
     res.status(200).json({
       success: true,
@@ -85,6 +105,14 @@ bookRouter.put("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId: string = req.params.bookId;
     const updatedBody = req.body;
+
+    // Validate ObjectId
+    if (!mongoose.isValidObjectId(bookId)) {
+      res
+        .status(400)
+        .json({ success: false, message: "Invalid book ID", data: null });
+      return;
+    }
 
     const book = await Book.findOneAndUpdate({ _id: bookId }, updatedBody, {
       new: true,
@@ -108,6 +136,14 @@ bookRouter.put("/:bookId", async (req: Request, res: Response) => {
 bookRouter.delete("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId: string = req.params.bookId;
+
+    // Validate ObjectId
+    if (!mongoose.isValidObjectId(bookId)) {
+      res
+        .status(400)
+        .json({ success: false, message: "Invalid book ID", data: null });
+      return;
+    }
 
     await Book.findOneAndDelete({ _id: bookId });
     res.status(200).json({
