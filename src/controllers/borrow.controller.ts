@@ -91,5 +91,9 @@ borrowRouter.get("/", async (req: Request, res: Response) => {
     },
   ]);
 
-  res.status(200).json(result);
+  res.status(200).json({
+    success: true,
+    message: "Borrowed books summary retrieved successfully",
+    data: result,
+  });
 });
