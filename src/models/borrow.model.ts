@@ -27,4 +27,10 @@ const borrowSchema = new Schema<IBorrow>(
   }
 );
 
+// an example pre middleware
+borrowSchema.pre("save", function (next) {
+  console.log(`Borrowing book: ${this.book}, Quantity: ${this.quantity}`);
+  next();
+});
+
 export const Borrow = model("Borrow", borrowSchema);

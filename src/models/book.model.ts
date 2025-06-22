@@ -67,9 +67,4 @@ bookSchema.static("updateAvailability", async function (bookId: string) {
   }
 });
 
-// pre middleware
-bookSchema.post("findOneAndUpdate", async function (doc) {
-  console.log("from inside pre save middleware:", doc);
-});
-
 export const Book = model<IBook, IBookStaticMethod>("Book", bookSchema);
