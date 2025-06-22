@@ -13,11 +13,11 @@ bookRouter.post("/", async (req: Request, res: Response) => {
       message: "Book created successfully",
       data: book,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
 
     res.status(400).json({
-      message: error.message,
+      message: (error as Error).message,
       success: false,
       error,
     });
@@ -33,8 +33,8 @@ bookRouter.get("/", async (req: Request, res: Response) => {
       limit = 10,
     } = req.query;
 
-    const query: Record<string, any> = {};
-    if (filter) {
+    const query: Record<string, string> = {};
+    if (typeof filter === "string") {
       query.genre = filter;
     }
 
@@ -49,11 +49,11 @@ bookRouter.get("/", async (req: Request, res: Response) => {
       message: "Books retrieved successfully",
       data: books,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
 
     res.status(400).json({
-      message: error.message,
+      message: (error as Error).message,
       success: false,
       error,
     });
@@ -70,11 +70,11 @@ bookRouter.get("/:bookId", async (req: Request, res: Response) => {
       message: "Book retrieved successfully",
       data: book,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.log("ERROR", error);
 
     res.status(400).json({
-      message: error.message,
+      message: (error as Error).message,
       success: false,
       error,
     });
@@ -94,11 +94,11 @@ bookRouter.put("/:bookId", async (req: Request, res: Response) => {
       message: "Book updated successfully",
       data: book,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.log("ERROR", error);
 
     res.status(400).json({
-      message: error.message,
+      message: (error as Error).message,
       success: false,
       error,
     });
@@ -115,11 +115,11 @@ bookRouter.delete("/:bookId", async (req: Request, res: Response) => {
       message: "Book deleted successfully",
       data: null,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.log("ERROR", error);
 
     res.status(400).json({
-      message: error.message,
+      message: (error as Error).message,
       success: false,
       error,
     });

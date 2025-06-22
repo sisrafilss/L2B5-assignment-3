@@ -15,7 +15,9 @@ async function main() {
     app.listen(port, () => {
       console.log(`Libraray Management System app listening on port ${port}`);
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 main();
