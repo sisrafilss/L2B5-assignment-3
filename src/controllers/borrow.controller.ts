@@ -59,3 +59,37 @@ borrowRouter.post("/", async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: (err as Error).message });
   }
 });
+
+borrowRouter.get("/", async (req: Request, res: Response) => {
+  const result = await Borrow.aggregate([
+    {
+      $group: {
+        _id: "$book",
+        totalQuantity: { $sum: "$quantity" },
+      },
+    },
+    {
+      $lookup: {
+        from: "books",
+        localField: "_id",
+        foreignField: "_id",
+        as: "bookInfo",
+      },
+    },
+    {
+      $unwind: "$bookInfo",
+    },
+    {
+      $project: {
+        _id: 0,
+        book: {
+          title: "$bookInfo.title",
+          isbn: "$bookInfo.isbn",
+        },
+        totalQuantity: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json(result);
+});

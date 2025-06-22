@@ -3,7 +3,7 @@ import { Book } from "../models/book.model";
 
 export const bookRouter = express.Router();
 
-bookRouter.post("/create-book", async (req: Request, res: Response) => {
+bookRouter.post("/", async (req: Request, res: Response) => {
   try {
     const body = req.body;
     const book = await Book.create(body);
@@ -81,7 +81,7 @@ bookRouter.get("/:bookId", async (req: Request, res: Response) => {
   }
 });
 
-bookRouter.patch("/:bookId", async (req: Request, res: Response) => {
+bookRouter.put("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId: string = req.params.bookId;
     const updatedBody = req.body;
