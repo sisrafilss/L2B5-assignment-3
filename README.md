@@ -2,6 +2,15 @@
 
 Live link of this Library Management System is [https://library-management-lilac-five.vercel.app/](https://library-management-lilac-five.vercel.app/). A user can add some book, update, delete, query a book using various fields. This app also track the borrow statistic, for example, how many copy of the book is given borrw to someone.
 
+## How to Run The Application Locally
+
+- First clone this repository
+- Navigate to this directory and run `npm install` to install necessary packages.
+- Create a `.env` file at the root directory of the project, and include `DB_URI`. `DB_URI` is the the URI we got from MongoDB. Don't forget to include your username and password there.
+- To run the project locally without compiling the typescript, you can install a npm package called ts-node-dev globally and run `npm run dev`, then this package will run your file automatically. Not only run, it will also detect any changes automatically and run accordingly.
+- Visit [http://localhost:5000/](http://localhost:5000/) from browser or Postman. If you see the welcome message, Congratulations! You have successfully run the project.
+- Now follow the endpoint given below and find your desire data .
+
 Some API endpoint of this application is explain below -
 
 ## api/books
